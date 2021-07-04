@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any, List, Optional, final
 
 
 
@@ -30,15 +30,23 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
             empty_str += '| {'+':^{}'.format(i)+'} '
         else:
             empty_str += '| {'+':<{}'.format(i)+'} '
-    top_str = [('─'*e) for e in lengthList]
-    
-    print('┌─'+'─┬─'.join(top_str)+'─┐')
+    top_str = [('─'*(e+2)) for e in lengthList]
+    final_str = ""
+    final_str += '┌'+'┬'.join(top_str)+'┐ \n'
 
     if labels:
-        print(empty_str.format(*labels)+'|') 
-        print('├─'+'─┼─'.join(top_str)+'─┤')
+        final_str += empty_str.format(str(l)for l in labels )+'| \n'
+        final_str += '├'+'┼'.join(top_str)+'┤ \n'
 
     for row in rows:
-        print(empty_str.format(*row)+'|')
-    print('└─'+'─┴─'.join(top_str)+'─┘')
+        final_str += empty_str.format(*row)+'| \n' 
 
+    final_str += '└'+'┴'.join(top_str)+'┘ \n' 
+
+    return(final_str)
+
+print(make_table( rows=[
+                    [None, 1, 2.5, None, 32j, '123'],
+                ],
+                labels=[3, None, 12, "A", 12.6, 12j],
+                centered=True))
